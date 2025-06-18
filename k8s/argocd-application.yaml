@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1  # Argo CD Application API versiyonu
+kind: Application                 # Bu bir Argo CD Application kaynağıdır
+metadata:
+  name: test-cicd                 # Uygulama adı
+  namespace: argocd               # Argo CD’nin kurulu olduğu namespace
+spec:
+  project: default                # Argo CD içindeki proje adı
+  source:                         # Uygulamanın kaynak (Git repo) bilgisi
+    repoURL: https://github.com/softsaw/test-cicd  # Git deposu URL’si
+    targetRevision: main          # Branch veya tag (örn. main)
+    path: k8s                      # Repo içindeki manifest yolunuz
+  destination:                    # Deploy edileceği cluster ve namespace
+    server: https://kubernetes.default.svc  # Cluster iç API sunucusu
+    namespace: default            # Hedef namespace
+  syncPolicy:                     # Otomatik sync ayarları
+    automated:
+      prune: true                 # Artık kullanılmayan kaynakları sil
+      selfHeal: true              # Drift varsa otomatik düzelt

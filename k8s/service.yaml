@@ -1,0 +1,13 @@
+# k8s/service.yaml
+apiVersion: v1               # Service API versiyonu
+kind: Service                # Bu kaynak bir Service olduğunu tanımlar
+metadata:
+  name: test-cicd-svc        # Service adı
+spec:
+  type: NodePort             # Dışarıdan erişim için NodePort tipi
+  selector:
+    app: test-cicd           # Bu etikete sahip pod’lara yönlendirir
+  ports:
+    - port: 80               # Service’in expose ettiği port
+      targetPort: 5000       # Pod içindeki port
+      nodePort: 30080        # Node’un üzerinde açılacak dış port
